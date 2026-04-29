@@ -1,0 +1,21 @@
+---
+# Variables globales del proyecto {{ project_name }}
+project_name: "{{ project_name }}"
+python_version: "{{ python_version }}"
+
+# Postgres
+postgres_version: "16"
+postgres_db: "{{ package_name }}"
+postgres_user: "{{ package_name }}"
+postgres_password: "changeme"      # ⚠ cambiá antes de producción
+
+# Kafka (si usás forja-streaming)
+kafka_version: "7.6.0"
+kafka_bootstrap_servers: "localhost:9092"
+
+# Storage (si usás forja-lakehouse)
+storage_root: "/data/lakehouse"
+
+# forja
+forja_project_path: "/opt/{{ package_name }}"
+forja_venv_path: "/opt/{{ package_name }}/.venv"

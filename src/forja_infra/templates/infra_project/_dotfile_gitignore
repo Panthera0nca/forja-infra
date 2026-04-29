@@ -1,0 +1,5 @@
+.DS_Store
+*.retry
+inventory/hosts.yml     # contiene IPs — no commitear en repos públicos
+inventory/group_vars/all.yml  # contiene passwords — usar ansible-vault
+.vault_pass

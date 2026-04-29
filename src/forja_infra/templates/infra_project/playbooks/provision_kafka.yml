@@ -1,0 +1,11 @@
+---
+# provision_kafka.yml — setup de brokers Kafka
+# Uso: ansible-playbook playbooks/provision_kafka.yml
+# Requiere: pip install forja-streaming
+- name: Provisionar Kafka (forja-streaming)
+  hosts: kafka
+  become: true
+
+  roles:
+    - common
+    - kafka       # Kafka KRaft (sin Zookeeper)

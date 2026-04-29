@@ -1,0 +1,35 @@
+---
+# deploy.yml — despliega el proyecto forja en el servidor
+# Uso: ansible-playbook playbooks/deploy.yml
+- name: Desplegar {{ project_name }}
+  hosts: data
+  become: true
+
+  vars:
+    repo_url: ""    # URL del repo Git del proyecto forja
+
+  tasks:
+    - name: Clonar / actualizar repositorio
+      ansible.builtin.git:
+        repo: "{{ '{{' }} repo_url {{ '}}' }}"
+        dest: "{{ '{{' }} forja_project_path {{ '}}' }}"
+        version: main
+        force: true
+
+    - name: Crear virtualenv e instalar dependencias
+      ansible.builtin.pip:
+        requirements: "{{ '{{' }} forja_project_path {{ '}}' }}/requirements.txt"
+        virtualenv: "{{ '{{' }} forja_venv_path {{ '}}' }}"
+        virtualenv_command: python3 -m venv
+
+    - name: Instalar proyecto en modo editable
+      ansible.builtin.shell: |
+        {{ '{{' }} forja_venv_path {{ '}}' }}/bin/pip install -e ".[dev]"
+      args:
+        chdir: "{{ '{{' }} forja_project_path {{ '}}' }}"
+
+    - name: Ejecutar migraciones
+      ansible.builtin.shell: |
+        {{ '{{' }} forja_venv_path {{ '}}' }}/bin/dfg migrate
+      args:
+        chdir: "{{ '{{' }} forja_project_path {{ '}}' }}"

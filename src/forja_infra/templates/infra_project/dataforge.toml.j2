@@ -1,0 +1,13 @@
+[project]
+name = "{{ project_name }}"
+package = "{{ package_name }}"
+type = "infra"
+version = "0.1.0"
+forja_version = "{{ forja_version }}"
+category = "{{ category }}"
+sources = []
+pipelines = []
+
+[infra]
+ansible_version = ">=9.0.0"
+target_arch = ""   # etl | lakehouse | streaming — el proyecto que estás provisionando

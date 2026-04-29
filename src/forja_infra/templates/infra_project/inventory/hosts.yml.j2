@@ -1,0 +1,21 @@
+---
+all:
+  vars:
+    ansible_user: ubuntu          # cambiá al usuario SSH del servidor
+    ansible_python_interpreter: /usr/bin/python3
+
+  children:
+    # Servidores donde corren proyectos forja ETL / lakehouse
+    data:
+      hosts:
+        data01:
+          ansible_host: 0.0.0.0   # reemplazá con la IP real
+          forja_arch: "{{ category }}"
+
+    # Brokers Kafka (para proyectos streaming)
+    kafka:
+      hosts: {}                   # agregá hosts cuando uses forja-streaming
+
+    # Nodos de serving DuckDB (para proyectos lakehouse)
+    serving:
+      hosts: {}                   # agregá hosts cuando uses forja-lakehouse

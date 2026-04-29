@@ -1,0 +1,10 @@
+---
+# provision.yml — setup inicial del servidor
+# Uso: ansible-playbook playbooks/provision.yml
+- name: Provisionar servidor forja (ETL / hexagonal)
+  hosts: data
+  become: true
+
+  roles:
+    - common      # Python, Docker, dependencias base
+    - postgres    # Postgres 16 via Docker

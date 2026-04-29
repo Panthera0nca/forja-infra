@@ -1,0 +1,21 @@
+---
+- name: Instalar Postgres {{ postgres_version }} via Docker
+  community.docker.docker_container:
+    name: postgres
+    image: "postgres:{{ postgres_version }}-alpine"
+    state: started
+    restart_policy: always
+    ports:
+      - "5432:5432"
+    env:
+      POSTGRES_DB:       "{{ postgres_db }}"
+      POSTGRES_USER:     "{{ postgres_user }}"
+      POSTGRES_PASSWORD: "{{ postgres_password }}"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+- name: Esperar a que Postgres esté listo
+  ansible.builtin.wait_for:
+    port: 5432
+    delay: 5
+    timeout: 30

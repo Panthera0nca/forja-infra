@@ -1,0 +1,24 @@
+---
+- name: Instalar DuckDB CLI
+  ansible.builtin.shell: |
+    curl -fsSL https://github.com/duckdb/duckdb/releases/latest/download/duckdb_cli-linux-amd64.zip \
+      -o /tmp/duckdb.zip && \
+    unzip -o /tmp/duckdb.zip -d /usr/local/bin && \
+    chmod +x /usr/local/bin/duckdb
+  args:
+    creates: /usr/local/bin/duckdb
+
+- name: Crear directorio de storage lakehouse
+  ansible.builtin.file:
+    path: "{{ storage_root }}"
+    state: directory
+    mode: '0755'
+
+- name: Verificar DuckDB
+  ansible.builtin.command: duckdb --version
+  register: duckdb_version
+  changed_when: false
+
+- name: Mostrar versión DuckDB
+  ansible.builtin.debug:
+    msg: "DuckDB instalado: {{ duckdb_version.stdout }}"

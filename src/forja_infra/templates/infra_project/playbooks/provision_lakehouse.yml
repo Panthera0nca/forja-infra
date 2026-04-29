@@ -1,0 +1,11 @@
+---
+# provision_lakehouse.yml — setup del nodo de serving DuckDB
+# Uso: ansible-playbook playbooks/provision_lakehouse.yml
+# Requiere: pip install forja-lakehouse
+- name: Provisionar DuckDB serving (forja-lakehouse)
+  hosts: serving
+  become: true
+
+  roles:
+    - common
+    - duckdb      # DuckDB serving layer
